@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Variáveis do shadcn/ui mapeadas para a paleta do Figma */
+    --background: 224 48% 51%; /* #4365BF */
+    --foreground: 0 0% 100%;
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 0 0% 100%;
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-brand font-sans text-white antialiased;
+    font-weight: 400;
+  }
+
+  /* Foco visível consistente: anel branco sobre o azul, azul-escuro sobre claros. */
+  :focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+  .on-light :focus-visible {
+    outline-color: #2f4a99;
+  }
+
+  ::selection {
+    background: #fff;
+    color: #4365bf;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}

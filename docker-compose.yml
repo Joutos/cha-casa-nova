@@ -1,0 +1,50 @@
+name: cha-de-casa-nova
+
+services:
+  backend:
+    build: ./backend
+    env_file: .env
+    environment:
+      APP_ENV: production
+      DATABASE_PATH: /data/app.db
+      PORT: "8080"
+    volumes:
+      - app-data:/data
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/server", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_PIX_KEY: ${VITE_PIX_KEY:-}
+        VITE_PIX_QR_IMAGE: ${VITE_PIX_QR_IMAGE:-}
+    ports:
+      - "${HTTP_PORT:-8080}:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+
+volumes:
+  app-data:

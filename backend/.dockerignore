@@ -1,0 +1,6 @@
+go.dev.mod
+go.dev.sum
+data/
+*.db
+*.db-*
+**/*_test.go
